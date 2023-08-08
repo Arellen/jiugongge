@@ -36,7 +36,9 @@ def create_jiugongge_chart(data, chart_title):
         xaxis_title=data.columns[2],
         yaxis_title=data.columns[1],
         plot_bgcolor='white',  # Setting background to white
-        paper_bgcolor='white'  # Setting surrounding area of the plot to white
+        paper_bgcolor='white',  # Setting surrounding area of the plot to white
+        xaxis=dict(showline=True, linewidth=2, linecolor='black'),
+        yaxis=dict(showline=True, linewidth=2, linecolor='black')
     )
     st.plotly_chart(fig)
 
