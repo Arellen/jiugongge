@@ -1,12 +1,10 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-import matplotlib.font_manager as fm
+
 import io
 
-# 加载自定义字体
-font_path = './SimHei.ttf'  # 调整为您的字体路径
-prop = fm.FontProperties(fname=font_path)
+
 
 def create_jiugongge_chart(data):
     plt.figure(figsize=(10, 8))
