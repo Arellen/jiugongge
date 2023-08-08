@@ -44,7 +44,7 @@ def create_jiugongge_chart(data, chart_title):
     )
     
     fig.update_layout(
-        title=dict(text=chart_title, font=dict(size=24, weight='bold')),
+        title=dict(text=chart_title, font=dict(size=24)),
         xaxis=dict(title=data.columns[2], tickformat=".0%", titlefont=dict(size=18), tickfont=dict(size=18)),
         yaxis=dict(title=data.columns[1], titlefont=dict(size=18), tickfont=dict(size=18)),
         plot_bgcolor='white',
