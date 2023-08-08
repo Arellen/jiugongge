@@ -10,27 +10,30 @@ def create_jiugongge_chart(data, chart_title):
     fig = go.Figure()
 
     # Add scatter points
-    fig.add_trace(go.Scatter(x=data.iloc[:, 2], y=data.iloc[:, 1], mode='markers+text', text=data.iloc[:, 0], textposition='top center'))
+    fig.add_trace(go.Scatter(x=data.iloc[:, 2], y=data.iloc[:, 1], mode='markers+text', 
+                             text=data.iloc[:, 0], textposition='top center',
+                             textfont=dict(size=14, color='#000000', family='Arial', weight='bold'),
+                             marker=dict(size=8, color='#1f77b4')))
 
     # Add lines for quantiles
     fig.add_shape(
-        type="line", line=dict(dash="dash", color="red"),
+        type="line", line=dict(dash="dash", color="red", width=2),
         x0=min(data.iloc[:, 2]), x1=max(data.iloc[:, 2]), y0=x_quantiles[0.33], y1=x_quantiles[0.33]
     )
     fig.add_shape(
-        type="line", line=dict(dash="dash", color="red"),
+        type="line", line=dict(dash="dash", color="red", width=2),
         x0=min(data.iloc[:, 2]), x1=max(data.iloc[:, 2]), y0=x_quantiles[0.66], y1=x_quantiles[0.66]
     )
     fig.add_shape(
-        type="line", line=dict(dash="dash", color="red"),
+        type="line", line=dict(dash="dash", color="red", width=2),
         x0=y_quantiles[0.33], x1=y_quantiles[0.33], y0=min(data.iloc[:, 1]), y1=max(data.iloc[:, 1])
     )
     fig.add_shape(
-        type="line", line=dict(dash="dash", color="red"),
+        type="line", line=dict(dash="dash", color="red", width=2),
         x0=y_quantiles[0.66], x1=y_quantiles[0.66], y0=min(data.iloc[:, 1]), y1=max(data.iloc[:, 1])
     )
-    
-    # Add arrows for x and y axes with reduced size
+
+    # Add arrows for positive x and y axes with reduced size
     fig.add_annotation(
         axref='x', ayref='y', ax=0, ay=0, x=max(data.iloc[:, 2]), y=0,
         xref='x', yref='y', showarrow=True, arrowhead=2, arrowsize=1, arrowwidth=2, arrowcolor='#636363'
@@ -39,11 +42,21 @@ def create_jiugongge_chart(data, chart_title):
         axref='x', ayref='y', ax=0, ay=0, x=0, y=max(data.iloc[:, 1]),
         xref='x', yref='y', showarrow=True, arrowhead=2, arrowsize=1, arrowwidth=2, arrowcolor='#636363'
     )
+
+    # Add arrows for negative x and y axes with reduced size
+    fig.add_annotation(
+        axref='x', ayref='y', ax=0, ay=0, x=min(data.iloc[:, 2]), y=0,
+        xref='x', yref='y', showarrow=True, arrowhead=2, arrowsize=1, arrowwidth=2, arrowcolor='#636363'
+    )
+    fig.add_annotation(
+        axref='x', ayref='y', ax=0, ay=0, x=0, y=min(data.iloc[:, 1]),
+        xref='x', yref='y', showarrow=True, arrowhead=2, arrowsize=1, arrowwidth=2, arrowcolor='#636363'
+    )
     
     fig.update_layout(
-        title=chart_title,
-        xaxis=dict(title=data.columns[2], tickformat=".0%"),
-        yaxis_title=data.columns[1],
+        title=dict(text=chart_title, font=dict(size=18, weight='bold')),
+        xaxis=dict(title=data.columns[2], tickformat=".0%", titlefont=dict(size=16, weight='bold'), tickfont=dict(size=14, weight='bold')),
+        yaxis=dict(title=data.columns[1], titlefont=dict(size=16, weight='bold'), tickfont=dict(size=14, weight='bold')),
         plot_bgcolor='white',
         paper_bgcolor='white'
     )
