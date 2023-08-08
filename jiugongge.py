@@ -12,8 +12,8 @@ def create_jiugongge_chart(data, chart_title):
     # Add scatter points with modified text font for series labels
     fig.add_trace(go.Scatter(x=data.iloc[:, 2], y=data.iloc[:, 1], mode='markers+text', 
                              text=data.iloc[:, 0], textposition='top center',
-                             textfont=dict(size=18, color='brown', family='Arial'),
-                            marker=dict(color='yellow')))
+                             textfont=dict(size=18, color='black', family='Arial'),
+                            marker=dict(color='red')))
 
     # Add lines for quantiles
     fig.add_shape(
