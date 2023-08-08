@@ -40,7 +40,6 @@ def create_jiugongge_chart(data, chart_title):
         plot_bgcolor="white",
         xaxis_ticks="",
         yaxis_ticks="",
-        showlegend=False
     )
     st.plotly_chart(fig)
 
