@@ -1,35 +1,34 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
-
-# 设置字体为 SimHei，使其支持中文显示
-plt.rcParams['font.sans-serif'] = ['SimHei']
-plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
+import plotly.express as px
 
 def create_jiugongge_chart(data):
     # Determine the quantiles for sales and profit margin
     x_quantiles = data.iloc[:, 1].quantile([0.33, 0.66])
     y_quantiles = data.iloc[:, 2].quantile([0.33, 0.66])
+    
+    fig = px.scatter(data, x=data.columns[2], y=data.columns[1], text=data.columns[0])
 
-    plt.figure(figsize=(10, 8))
-    # Scatter plot with labels
-    for i, row in data.iterrows():
-        plt.scatter(row.iloc[2], row.iloc[1], c='blue', marker='o', edgecolors='black')
-        plt.text(row.iloc[2], row.iloc[1], row.iloc[0], fontsize=9, ha='right')
-
-    # Plot the quantile lines
-    plt.axhline(y=x_quantiles[0.33], color='red', linestyle='--')
-    plt.axhline(y=x_quantiles[0.66], color='red', linestyle='--')
-    plt.axvline(x=y_quantiles[0.33], color='red', linestyle='--')
-    plt.axvline(x=y_quantiles[0.66], color='red', linestyle='--')
-
-    # Set labels and title using the headers from the data
-    plt.ylabel(data.columns[1])
-    plt.xlabel(data.columns[2])
-    plt.title('九宫格')
-    plt.grid(True, which='both', linestyle='--', linewidth=0.5)
-
-    st.pyplot(plt)
+    # Add lines for quantiles
+    fig.add_shape(
+        type="line", line=dict(dash="dash"),
+        x0=min(data.iloc[:, 2]), x1=max(data.iloc[:, 2]), y0=x_quantiles[0.33], y1=x_quantiles[0.33]
+    )
+    fig.add_shape(
+        type="line", line=dict(dash="dash"),
+        x0=min(data.iloc[:, 2]), x1=max(data.iloc[:, 2]), y0=x_quantiles[0.66], y1=x_quantiles[0.66]
+    )
+    fig.add_shape(
+        type="line", line=dict(dash="dash"),
+        x0=y_quantiles[0.33], x1=y_quantiles[0.33], y0=min(data.iloc[:, 1]), y1=max(data.iloc[:, 1])
+    )
+    fig.add_shape(
+        type="line", line=dict(dash="dash"),
+        x0=y_quantiles[0.66], x1=y_quantiles[0.66], y0=min(data.iloc[:, 1]), y1=max(data.iloc[:, 1])
+    )
+    
+    fig.update_layout(title="九宫格", xaxis_title=data.columns[2], yaxis_title=data.columns[1])
+    st.plotly_chart(fig)
 
 st.title("九宫格生成器")
 uploaded_file = st.file_uploader("请上传一个Excel文件", type="xlsx")
