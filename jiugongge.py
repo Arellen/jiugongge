@@ -13,7 +13,7 @@ def create_jiugongge_chart(data, chart_title):
     fig.add_trace(go.Scatter(x=data.iloc[:, 2], y=data.iloc[:, 1], mode='markers+text', 
                              text=data.iloc[:, 0], textposition='top center',
                              textfont=dict(size=18, color='black', family='Arial'),
-                            marker=dict(color='red')))
+                            marker=dict(color='#0000FF', size=10)))
 
     # Add lines for quantiles
     fig.add_shape(
