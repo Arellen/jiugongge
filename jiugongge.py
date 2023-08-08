@@ -9,8 +9,10 @@ def create_jiugongge_chart(data, chart_title):
     
     fig = go.Figure()
 
-    # Add scatter points
-    fig.add_trace(go.Scatter(x=data.iloc[:, 2], y=data.iloc[:, 1], mode='markers+text', text=data.iloc[:, 0], textposition='top center'))
+    # Add scatter points with modified text font for series labels
+    fig.add_trace(go.Scatter(x=data.iloc[:, 2], y=data.iloc[:, 1], mode='markers+text', 
+                             text=data.iloc[:, 0], textposition='top center',
+                             textfont=dict(size=16, color='#000000', family='Arial', weight='bold')))
 
     # Add lines for quantiles
     fig.add_shape(
