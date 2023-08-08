@@ -10,30 +10,27 @@ def create_jiugongge_chart(data, chart_title):
     fig = go.Figure()
 
     # Add scatter points
-    fig.add_trace(go.Scatter(x=data.iloc[:, 2], y=data.iloc[:, 1], mode='markers+text', 
-                             text=data.iloc[:, 0], textposition='top center',
-                             textfont=dict(size=14, color='#000000', family='Arial'),
-                             marker=dict(size=8, color='#1f77b4')))
+    fig.add_trace(go.Scatter(x=data.iloc[:, 2], y=data.iloc[:, 1], mode='markers+text', text=data.iloc[:, 0], textposition='top center'))
 
     # Add lines for quantiles
     fig.add_shape(
-        type="line", line=dict(dash="dash", color="red", width=2),
+        type="line", line=dict(dash="dash", color="red"),
         x0=min(data.iloc[:, 2]), x1=max(data.iloc[:, 2]), y0=x_quantiles[0.33], y1=x_quantiles[0.33]
     )
     fig.add_shape(
-        type="line", line=dict(dash="dash", color="red", width=2),
+        type="line", line=dict(dash="dash", color="red"),
         x0=min(data.iloc[:, 2]), x1=max(data.iloc[:, 2]), y0=x_quantiles[0.66], y1=x_quantiles[0.66]
     )
     fig.add_shape(
-        type="line", line=dict(dash="dash", color="red", width=2),
+        type="line", line=dict(dash="dash", color="red"),
         x0=y_quantiles[0.33], x1=y_quantiles[0.33], y0=min(data.iloc[:, 1]), y1=max(data.iloc[:, 1])
     )
     fig.add_shape(
-        type="line", line=dict(dash="dash", color="red", width=2),
+        type="line", line=dict(dash="dash", color="red"),
         x0=y_quantiles[0.66], x1=y_quantiles[0.66], y0=min(data.iloc[:, 1]), y1=max(data.iloc[:, 1])
     )
-
-    # Add arrows for positive x and y axes with reduced size
+    
+    # Add arrows for x and y axes with reduced size
     fig.add_annotation(
         axref='x', ayref='y', ax=0, ay=0, x=max(data.iloc[:, 2]), y=0,
         xref='x', yref='y', showarrow=True, arrowhead=2, arrowsize=1, arrowwidth=2, arrowcolor='#636363'
@@ -42,22 +39,11 @@ def create_jiugongge_chart(data, chart_title):
         axref='x', ayref='y', ax=0, ay=0, x=0, y=max(data.iloc[:, 1]),
         xref='x', yref='y', showarrow=True, arrowhead=2, arrowsize=1, arrowwidth=2, arrowcolor='#636363'
     )
-
-    # Add arrows for negative x and y axes with reduced size
-    fig.add_annotation(
-        axref='x', ayref='y', ax=0, ay=0, x=min(data.iloc[:, 2]), y=0,
-        xref='x', yref='y', showarrow=True, arrowhead=2, arrowsize=1, arrowwidth=2, arrowcolor='#636363'
-    )
-    fig.add_annotation(
-        axref='x', ayref='y', ax=0, ay=0, x=0, y=min(data.iloc[:, 1]),
-        xref='x', yref='y', showarrow=True, arrowhead=2, arrowsize=1, arrowwidth=2, arrowcolor='#636363'
-    )
     
     fig.update_layout(
-        font=dict(size=14, color='#000000', family='Arial', weight='bold'),
-        title=dict(text=chart_title, font=dict(size=18)),
-        xaxis=dict(title=data.columns[2], tickformat=".0%", titlefont=dict(size=16), tickfont=dict(size=14)),
-        yaxis=dict(title=data.columns[1], titlefont=dict(size=16), tickfont=dict(size=14)),
+        title=chart_title,
+        xaxis=dict(title=data.columns[2], tickformat=".0%"),
+        yaxis_title=data.columns[1],
         plot_bgcolor='white',
         paper_bgcolor='white'
     )
@@ -76,4 +62,4 @@ if uploaded_file:
     if data.shape[1] >= 3:
         create_jiugongge_chart(data, chart_title)
     else:
-        st.warning("请确保您的Excel文件至少包含三列：系列、X")
+        st.warning("请确保您的Excel文件至少包含三列：系列、X轴数据和Y轴数据。")
