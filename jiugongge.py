@@ -8,43 +8,43 @@ def create_jiugongge_chart(data, chart_title):
     x_quantiles = data.iloc[:, 1].quantile([0.33, 0.66])
     y_quantiles = data.iloc[:, 2].quantile([0.33, 0.66])
     
-    fig = px.scatter(data, x=data.columns[2], y=data.columns[1])
+    fig = px.scatter(data, x=data.columns[2], y=data.columns[1], text=data.columns[0])
 
-    # Move text above the marker
+    # Adjust text position to be above the points
     fig.update_traces(textposition='top center')
 
     # Add lines for quantiles
-    line_properties = dict(color="red", dash="dash")
     fig.add_shape(
-        type="line", line=line_properties,
+        type="line", line=dict(dash="dash", color="red"),
         x0=min(data.iloc[:, 2]), x1=max(data.iloc[:, 2]), y0=x_quantiles[0.33], y1=x_quantiles[0.33]
     )
     fig.add_shape(
-        type="line", line=line_properties,
+        type="line", line=dict(dash="dash", color="red"),
         x0=min(data.iloc[:, 2]), x1=max(data.iloc[:, 2]), y0=x_quantiles[0.66], y1=x_quantiles[0.66]
     )
     fig.add_shape(
-        type="line", line=line_properties,
+        type="line", line=dict(dash="dash", color="red"),
         x0=y_quantiles[0.33], x1=y_quantiles[0.33], y0=min(data.iloc[:, 1]), y1=max(data.iloc[:, 1])
     )
     fig.add_shape(
-        type="line", line=line_properties,
+        type="line", line=dict(dash="dash", color="red"),
         x0=y_quantiles[0.66], x1=y_quantiles[0.66], y0=min(data.iloc[:, 1]), y1=max(data.iloc[:, 1])
     )
-
-    # Update layout based on user requirements
+    
     fig.update_layout(
-        title=chart_title, 
-        xaxis_title=data.columns[2], 
+        title=chart_title,
+        xaxis_title=data.columns[2],
         yaxis_title=data.columns[1],
-        plot_bgcolor="white",
-        xaxis_ticks="",
-        yaxis_ticks="",
+        plot_bgcolor='white',  # Setting background to white
+        paper_bgcolor='white'  # Setting surrounding area of the plot to white
     )
     st.plotly_chart(fig)
 
 st.title("九宫格生成器")
-chart_title = st.text_input("请输入图表标题（如不输入则显示为空白）:", "")
+
+# Get chart title from user
+chart_title = st.text_input("请输入图表的标题：")
+
 uploaded_file = st.file_uploader("请上传一个Excel文件", type="xlsx")
 
 if uploaded_file:
