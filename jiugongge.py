@@ -64,4 +64,4 @@ if uploaded_file:
         if data.shape[1] >= 3:
             create_jiugongge_chart(data, sheet_name)
         else:
-            st.warning(f"工作表 {sheet_name} 应至少包含三列：系列、X轴数据和Y轴数据。"）
+            st.warning(f"工作表 {sheet_name} 应至少包含三列：系列、X轴数据和Y轴数据。")
