@@ -30,14 +30,14 @@ def create_jiugongge_chart(data, chart_title):
         x0=y_quantiles[0.66], x1=y_quantiles[0.66], y0=min(data.iloc[:, 1]), y1=max(data.iloc[:, 1])
     )
     
-    # Add arrows for x and y axes
+    # Add arrows for x and y axes with reduced size
     fig.add_annotation(
         axref='x', ayref='y', ax=0, ay=0, x=max(data.iloc[:, 2]), y=0,
-        xref='x', yref='y', showarrow=True, arrowhead=2, arrowsize=2, arrowwidth=2, arrowcolor='#636363'
+        xref='x', yref='y', showarrow=True, arrowhead=1, arrowsize=1, arrowwidth=1, arrowcolor='#636363'
     )
     fig.add_annotation(
         axref='x', ayref='y', ax=0, ay=0, x=0, y=max(data.iloc[:, 1]),
-        xref='x', yref='y', showarrow=True, arrowhead=2, arrowsize=2, arrowwidth=2, arrowcolor='#636363'
+        xref='x', yref='y', showarrow=True, arrowhead=1, arrowsize=1, arrowwidth=1, arrowcolor='#636363'
     )
     
     fig.update_layout(
