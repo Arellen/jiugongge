@@ -55,15 +55,13 @@ def create_jiugongge_chart(data, chart_title):
 
 st.title("九宫格生成器")
 
-# Get chart title from user
-chart_title = st.text_input("请输入图表的标题：")
+uploaded_file = st.file_uploader("请上传一个Excel文件", type="xlsx")
 
-# Allow multiple file uploads
-uploaded_files = st.file_uploader("请上传一个或多个Excel文件", type="xlsx", accept_multiple_files=True)
-
-for uploaded_file in uploaded_files:
-    data = pd.read_excel(uploaded_file)
-    if data.shape[1] >= 3:
-        create_jiugongge_chart(data, chart_title)
-    else:
-        st.warning(f"文件 {uploaded_file.name} 应至少包含三列：系列、X轴数据和Y轴数据。")
+if uploaded_file:
+    xls = pd.ExcelFile(uploaded_file)
+    for sheet_name in xls.sheet_names:
+        data = pd.read_excel(xls, sheet_name=sheet_name)
+        if data.shape[1] >= 3:
+            create_jiugongge_chart(data, sheet_name)
+        else:
+            st.warning(f"工作表 {sheet_name} 应至少包含三列：系列、X轴数据和Y轴数据。")
