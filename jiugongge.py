@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
 import plotly.graph_objects as go
 
 def create_jiugongge_chart(data, chart_title):
@@ -8,10 +7,10 @@ def create_jiugongge_chart(data, chart_title):
     x_quantiles = data.iloc[:, 1].quantile([0.33, 0.66])
     y_quantiles = data.iloc[:, 2].quantile([0.33, 0.66])
     
-    fig = px.scatter(data, x=data.columns[2], y=data.columns[1], text=data.columns[0])
+    fig = go.Figure()
 
-    # Adjust text position to be above the points
-    fig.update_traces(textposition='top center')
+    # Add scatter points
+    fig.add_trace(go.Scatter(x=data.iloc[:, 2], y=data.iloc[:, 1], mode='markers+text', text=data.iloc[:, 0], textposition='top center'))
 
     # Add lines for quantiles
     fig.add_shape(
@@ -31,15 +30,24 @@ def create_jiugongge_chart(data, chart_title):
         x0=y_quantiles[0.66], x1=y_quantiles[0.66], y0=min(data.iloc[:, 1]), y1=max(data.iloc[:, 1])
     )
     
+    # Add arrows for x and y axes
+    fig.add_annotation(
+        axref='x', ayref='y', ax=0, ay=0, x=max(data.iloc[:, 2]), y=0,
+        xref='x', yref='y', showarrow=True, arrowhead=2, arrowsize=2, arrowwidth=2, arrowcolor='#636363'
+    )
+    fig.add_annotation(
+        axref='x', ayref='y', ax=0, ay=0, x=0, y=max(data.iloc[:, 1]),
+        xref='x', yref='y', showarrow=True, arrowhead=2, arrowsize=2, arrowwidth=2, arrowcolor='#636363'
+    )
+    
     fig.update_layout(
         title=chart_title,
-        xaxis_title=data.columns[2],
+        xaxis=dict(title=data.columns[2], tickformat=".0%"),
         yaxis_title=data.columns[1],
-        plot_bgcolor='white',  # Setting background to white
-        paper_bgcolor='white',  # Setting surrounding area of the plot to white
-        xaxis=dict(showline=True, linewidth=2, linecolor='black'),
-        yaxis=dict(showline=True, linewidth=2, linecolor='black')
+        plot_bgcolor='white',
+        paper_bgcolor='white'
     )
+    
     st.plotly_chart(fig)
 
 st.title("九宫格生成器")
