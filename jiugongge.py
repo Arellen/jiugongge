@@ -12,7 +12,7 @@ def create_jiugongge_chart(data, chart_title):
     # Add scatter points
     fig.add_trace(go.Scatter(x=data.iloc[:, 2], y=data.iloc[:, 1], mode='markers+text', 
                              text=data.iloc[:, 0], textposition='top center',
-                             textfont=dict(size=14, color='#000000', family='Arial', weight='bold'),
+                             textfont=dict(size=14, color='#000000', family='Arial'),
                              marker=dict(size=8, color='#1f77b4')))
 
     # Add lines for quantiles
@@ -54,9 +54,10 @@ def create_jiugongge_chart(data, chart_title):
     )
     
     fig.update_layout(
-        title=dict(text=chart_title, font=dict(size=18, weight='bold')),
-        xaxis=dict(title=data.columns[2], tickformat=".0%", titlefont=dict(size=16, weight='bold'), tickfont=dict(size=14, weight='bold')),
-        yaxis=dict(title=data.columns[1], titlefont=dict(size=16, weight='bold'), tickfont=dict(size=14, weight='bold')),
+        font=dict(size=14, color='#000000', family='Arial', weight='bold'),
+        title=dict(text=chart_title, font=dict(size=18)),
+        xaxis=dict(title=data.columns[2], tickformat=".0%", titlefont=dict(size=16), tickfont=dict(size=14)),
+        yaxis=dict(title=data.columns[1], titlefont=dict(size=16), tickfont=dict(size=14)),
         plot_bgcolor='white',
         paper_bgcolor='white'
     )
@@ -75,4 +76,4 @@ if uploaded_file:
     if data.shape[1] >= 3:
         create_jiugongge_chart(data, chart_title)
     else:
-        st.warning("请确保您的Excel文件至少包含三列：系列、X轴数据和Y轴数据。")
+        st.warning("请确保您的Excel文件至少包含三列：系列、X")
