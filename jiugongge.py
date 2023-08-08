@@ -38,8 +38,6 @@ def create_jiugongge_chart(data, chart_title):
         xaxis_title=data.columns[2], 
         yaxis_title=data.columns[1],
         plot_bgcolor="white",
-        xaxis_showgrid=False,
-        yaxis_showgrid=False,
         xaxis_ticks="",
         yaxis_ticks="",
         xaxis_showticklabels=False,
