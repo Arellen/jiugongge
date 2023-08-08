@@ -2,6 +2,10 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
+# 设置字体为 SimHei，使其支持中文显示
+plt.rcParams['font.sans-serif'] = ['SimHei']
+plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
+
 def create_jiugongge_chart(data):
     # Determine the quantiles for sales and profit margin
     x_quantiles = data.iloc[:, 1].quantile([0.33, 0.66])
@@ -19,9 +23,9 @@ def create_jiugongge_chart(data):
     plt.axvline(x=y_quantiles[0.33], color='red', linestyle='--')
     plt.axvline(x=y_quantiles[0.66], color='red', linestyle='--')
 
-    # Set labels and title
-    plt.ylabel('X轴数据')
-    plt.xlabel('Y轴数据')
+    # Set labels and title using the headers from the data
+    plt.ylabel(data.columns[1])
+    plt.xlabel(data.columns[2])
     plt.title('九宫格')
     plt.grid(True, which='both', linestyle='--', linewidth=0.5)
 
