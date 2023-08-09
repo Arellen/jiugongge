@@ -4,8 +4,8 @@ import plotly.graph_objects as go
 
 def create_jiugongge_chart(data, chart_title):
     # Determine the quantiles for sales and profit margin
-    x_quantiles = sum(data.iloc[:, 1])
-    y_quantiles = sum(data.iloc[:, 2])
+    x_quantiles = data.iloc[:, 1].quantile([0.33, 0.66])
+    y_quantiles = data.iloc[:, 2].quantile([0.33, 0.66])
     
     fig = go.Figure()
 
