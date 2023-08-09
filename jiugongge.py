@@ -15,30 +15,24 @@ def create_jiugongge_chart(data, chart_title):
                              textfont=dict(size=18, color='black', family='Arial'),
                             marker=dict(color='#0000FF', size=10)))
 
-    # Add lines for quantiles
-    # X轴的33%分位数
+        # Add lines for quantiles
     fig.add_shape(
         type="line", line=dict(dash="dash", color="red"),
-        x0=x_quantiles[0.33], x1=x_quantiles[0.33], y0=min(data.iloc[:, 1]), y1=max(data.iloc[:, 1])
+        x0=min(data.iloc[:, 2]), x1=max(data.iloc[:, 2]), y0=x_quantiles[0.33], y1=x_quantiles[0.33]
     )
-    
-    # X轴的66%分位数
     fig.add_shape(
         type="line", line=dict(dash="dash", color="red"),
-        x0=x_quantiles[0.66], x1=x_quantiles[0.66], y0=min(data.iloc[:, 1]), y1=max(data.iloc[:, 1])
+        x0=min(data.iloc[:, 2]), x1=max(data.iloc[:, 2]), y0=x_quantiles[0.66], y1=x_quantiles[0.66]
+    )
+    fig.add_shape(
+        type="line", line=dict(dash="dash", color="red"),
+        x0=y_quantiles[0.33], x1=y_quantiles[0.33], y0=min(data.iloc[:, 1]), y1=max(data.iloc[:, 1])
+    )
+    fig.add_shape(
+        type="line", line=dict(dash="dash", color="red"),
+        x0=y_quantiles[0.66], x1=y_quantiles[0.66], y0=min(data.iloc[:, 1]), y1=max(data.iloc[:, 1])
     )
 
-    # Y轴的33%分位数
-    fig.add_shape(
-        type="line", line=dict(dash="dash", color="red"),
-        x0=min(data.iloc[:, 2]), x1=max(data.iloc[:, 2]), y0=y_quantiles[0.33], y1=y_quantiles[0.33]
-    )
-    
-    # Y轴的66%分位数
-    fig.add_shape(
-        type="line", line=dict(dash="dash", color="red"),
-        x0=min(data.iloc[:, 2]), x1=max(data.iloc[:, 2]), y0=y_quantiles[0.66], y1=y_quantiles[0.66]
-    )
 
     
     # Add arrows for x and y axes with reduced size
